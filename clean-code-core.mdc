@@ -1,0 +1,17 @@
+---
+description: Core clean-code rules for C#/.NET code. Apply to every code change, review, refactor, or test change.
+alwaysApply: true
+---
+
+# Clean Code Core — C#/.NET
+
+- Prefer readable, intention-revealing C# over clever or compressed code.
+- Follow the existing project's naming language and conventions; when this project uses Portuguese business terminology, keep identifiers in pt-BR. Do not translate established domain terms.
+- Use descriptive, searchable names; avoid unnecessary abbreviations, misleading names, type prefixes, redundant suffixes, and semantic overloading.
+- Prefer nouns for types and verbs for methods. Avoid generic names such as `Data`, `Manager`, `Helper`, or `Utils` when a precise responsibility can be named.
+- Keep methods focused on one responsibility. Prefer small methods with one clear abstraction level.
+- Minimize parameters; when a method needs several related inputs, use a meaningful request/command object rather than a long parameter list.
+- Avoid hidden side effects, unnecessary mutable state, and methods that both mutate state and return unrelated query data.
+- Prefer the simplest design that solves the current requirement. Avoid speculative abstractions and dead code.
+- Preserve behavior while refactoring. Do not introduce unrelated architectural changes.
+- Before creating a new abstraction, inspect nearby code and follow the project's established pattern.

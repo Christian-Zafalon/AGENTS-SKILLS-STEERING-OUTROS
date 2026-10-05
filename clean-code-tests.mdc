@@ -1,0 +1,20 @@
+---
+description: Testing standards for C#/.NET code. Use when creating, changing, or reviewing unit and integration tests.
+alwaysApply: false
+---
+
+# Clean Code — Tests
+
+- Every new behavior or bug fix should have appropriate automated coverage unless the existing project convention explicitly says otherwise.
+- Prefer fast, deterministic, isolated tests for business logic.
+- Use AAA: Arrange, Act, Assert. Keep each section obvious and minimal.
+- One test should primarily prove one behavior. Avoid tests that validate many unrelated outcomes.
+- Test names should describe scenario and expected result, preferably in the project's existing naming convention.
+- Follow existing test-framework and fixture conventions. For xUnit, prefer clear test methods and focused test data.
+- Mock at architectural boundaries, not internal implementation details. Do not mock types that are cheap and deterministic when a real instance is clearer.
+- Do not assert private implementation details when observable behavior can be tested instead.
+- Avoid brittle assertions tied to formatting, ordering, or incidental fields unless those details are part of the contract.
+- Keep test setup local and explicit. Shared fixtures must not create hidden coupling or order dependence.
+- For async code, await the operation and use async test methods; never hide asynchronous failures behind blocking calls.
+- When changing a production method, update existing tests before adding a new test structure unless the current structure is clearly inadequate.
+- Reuse canonical test helpers only when they improve clarity rather than hiding the scenario.

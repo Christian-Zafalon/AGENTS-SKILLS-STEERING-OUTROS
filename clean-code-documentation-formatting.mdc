@@ -1,0 +1,34 @@
+---
+description: C#/.NET readability, formatting, comments, documentation, and source organization. Use when editing source layout, comments, XML docs, or style-related code.
+alwaysApply: false
+---
+
+# Clean Code — Documentation and Formatting
+
+## Formatting and structure
+
+- Optimize for scanning and top-down reading.
+- Group related statements together and separate unrelated concepts with whitespace.
+- Keep methods and expressions readable without excessive horizontal complexity.
+- Follow the repository's `.editorconfig`, analyzer configuration, formatter, and established member ordering before inventing new style rules.
+- Do not reformat unrelated code during a functional change.
+- Keep high-level methods easy to find before low-level implementation details when that matches the project's style.
+
+## Comments
+
+- Prefer expressive code over comments.
+- Comment the **why**, not the obvious **what**.
+- Keep comments short, precise, and synchronized with the implementation.
+- Remove stale or misleading comments when touching the affected code.
+- Do not use comments to justify avoidable complexity.
+
+## Public APIs
+
+- Document public APIs when the project or analyzer requires XML documentation.
+- Describe contract, important constraints, side effects, exceptions, and non-obvious behavior rather than restating parameter names.
+- Do not add documentation to every private method unless it explains a non-obvious invariant.
+
+## Quality gates
+
+- Before finishing, use the repository's existing formatter/analyzers when available.
+- Do not suppress compiler or analyzer warnings merely to make a change pass. Prefer fixing the underlying issue; if suppression is genuinely required, keep it narrow and documented.

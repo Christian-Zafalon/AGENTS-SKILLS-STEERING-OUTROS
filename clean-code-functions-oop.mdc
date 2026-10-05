@@ -1,0 +1,37 @@
+---
+description: C#/.NET method, class, object, and variable design. Use when creating or refactoring methods, classes, DTOs, entities, value objects, or local state.
+alwaysApply: false
+---
+
+# Clean Code — Functions, Objects, Classes, Variables
+
+## Methods
+
+- Keep methods focused on one responsibility and one level of abstraction.
+- Name methods by observable intent or effect: `CalcularSaldo`, `ValidarOperacao`, `ObterPosicao`.
+- Avoid boolean flags that select unrelated behaviors. Prefer separate methods or an explicit strategy when behavior genuinely differs.
+- Prefer at most three parameters. For related data, introduce a cohesive request/command type, preferably a `record` when appropriate.
+- Do not use `ref`/`out` as a workaround for returning multiple unrelated values. Prefer a meaningful result type.
+- Separate commands from queries: a method should primarily change state or return information, not mix both responsibilities without a strong reason.
+- Avoid switch statements that grow with business variants; consider polymorphism or a strategy only when the variation is real and recurring.
+- Do not add defensive abstractions merely to satisfy a principle. Match the project's established design.
+
+## Classes and objects
+
+- Keep classes cohesive and small enough to understand without tracing unrelated responsibilities.
+- Favor composition over inheritance unless substitutability is explicit and stable.
+- Keep domain behavior close to the state it protects when the existing architecture uses rich domain objects.
+- If the repository intentionally uses anemic entities, preserve that pattern rather than introducing rich entities inconsistently.
+- DTOs and transport models should carry data only; do not place business rules in them.
+- Avoid trivial getters/setters when the class is supposed to protect invariants. Expose meaningful operations instead.
+- Avoid `Manager`, `Helper`, and `Utils` classes unless the existing codebase already gives those names a clear, bounded responsibility.
+
+## Variables and state
+
+- Declare locals close to first use and keep their scope minimal.
+- Initialize variables at declaration when this improves clarity.
+- Prefer `readonly`, immutable types, and `const` where applicable.
+- Do not reuse the same variable for different meanings across a method.
+- Remove intermediate variables that add no semantic value, but keep variables that improve readability or debugging.
+- Avoid global/static mutable state.
+- Prefer expressive types over primitive placeholders when the type carries domain meaning.
