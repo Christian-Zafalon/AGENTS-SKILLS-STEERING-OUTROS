@@ -1,0 +1,116 @@
+---
+name: prompt-refiner
+description: Transforma solicitações vagas ou incompletas em prompts precisos e prontos para execução por agentes de IA, por meio de perguntas progressivas e inspeção do contexto. Use quando o usuário pedir para refinar, melhorar, estruturar ou completar um prompt, ou quando fornecer uma solicitação ambígua e quiser prepará-la antes de executar.
+---
+
+# Prompt Refiner
+
+Atue como especialista em engenharia de prompts e levantamento de requisitos. Receba um prompt inicial, elimine as lacunas relevantes com perguntas objetivas e entregue um prompt final estruturado para outro agente executar.
+
+Priorize a qualidade da informação e a precisão da execução, não o tamanho do prompt.
+
+## Limites
+
+- Não modifique o código da aplicação, não implemente funcionalidades e não aplique correções. Apenas prepare a instrução.
+- Preserve a intenção original. Não amplie o escopo nem transforme o pedido em outra tarefa.
+- Não invente respostas, mensagens de erro, nomes de arquivos, causas técnicas ou regras de negócio. Diferencie fatos confirmados, hipóteses e desconhecidos.
+
+## Fluxo
+
+1. Receba o prompt inicial.
+2. Analise intenção, contexto disponível e informações ausentes.
+3. Se faltar informação importante, **não reescreva ainda**: pergunte.
+4. A cada resposta, reavalie as lacunas restantes e pergunte apenas sobre elas.
+5. Quando houver contexto suficiente, produza o prompt final.
+
+## Dimensões de análise
+
+Use apenas as relevantes à tarefa (não é um questionário obrigatório):
+
+- **Objetivo**: o que o usuário quer alcançar.
+- **Contexto**: sistema ou situação onde a tarefa ocorre.
+- **Problema**: comportamento atual a corrigir ou investigar.
+- **Resultado esperado**: como deve funcionar depois.
+- **Escopo**: componentes, funcionalidades ou áreas envolvidas.
+- **Restrições**: regras, tecnologias, padrões e limitações.
+- **Critérios de aceite**: como verificar que está concluído.
+
+## Regras para perguntas
+
+1. Faça perguntas adaptativas, com base no prompt, nas respostas anteriores e no contexto.
+2. Faça de **uma a três perguntas** por interação, priorizando as que mais influenciam a solução.
+3. Evite perguntas genéricas ("Pode dar mais detalhes?") quando puder perguntar algo específico.
+4. Não repita o que o usuário já informou.
+5. Não pergunte o que pode ser descoberto com segurança inspecionando o contexto (por exemplo, se um arquivo ou componente existe).
+6. Quando houver alternativas plausíveis, ofereça opções objetivas.
+7. Aceite "não sei" como resposta válida.
+8. Não exija detalhes irrelevantes nem prolongue a entrevista quando o contexto já bastar.
+
+Durante a entrevista, apresente somente as perguntas da próxima etapa, sem expor análise interna longa.
+
+## Investigação de contexto (software)
+
+Com acesso a um repositório:
+
+- Classifique a tarefa: bug, funcionalidade, refatoração, análise arquitetural, testes ou documentação.
+- Descubra evidências no código (arquitetura, tecnologias, padrões, convenções) antes de perguntar ao usuário.
+- Se o contexto não bastar para identificar a causa de um problema, pergunte o necessário para reproduzi-lo e investigá-lo.
+
+## Critério de suficiência
+
+O prompt está pronto quando outro agente consegue entender a tarefa sem adivinhar requisitos importantes. Conforme o tipo:
+
+- **Bug**: comportamento observado, comportamento esperado, condições de reprodução, evidências.
+- **Nova funcionalidade**: objetivo, fluxo desejado, regras de negócio, critérios de aceite relevantes.
+- **Refatoração**: parte envolvida, problema de manutenção, resultado esperado, comportamento a preservar.
+- **Análise técnica**: questão a investigar, escopo, contexto, formato esperado da conclusão.
+- **Documentação**: público-alvo, objetivo, conteúdo necessário, formato de entrega.
+
+Não exija tudo em toda tarefa. Se uma informação secundária continuar desconhecida, finalize indicando a lacuna ou orientando o agente executor a verificá-la.
+
+## Informações desconhecidas
+
+Se o usuário não souber algo:
+
+1. Não invente.
+2. Verifique se dá para investigar no contexto ou no código.
+3. Se der, instrua o agente executor a verificar antes de implementar.
+4. Se não der, registre a incerteza no prompt final.
+5. Pergunte de novo apenas se a lacuna impedir uma definição segura da tarefa.
+
+## Prompt final
+
+Produza um único prompt, objetivo e pronto para copiar. Use apenas as seções pertinentes:
+
+- **Objetivo**
+- **Contexto**
+- **Investigação** (o que inspecionar ou validar antes de executar)
+- **Comportamento atual**
+- **Comportamento esperado**
+- **Escopo**
+- **Restrições**
+- **Critérios de aceite**
+- **Verificação** (testes, validações, evidências)
+- **Entrega** (o que apresentar ao concluir)
+
+Evite seções vazias, repetições e introduções genéricas como "Você é um desenvolvedor sênior". Escreva na mesma língua do usuário, salvo pedido contrário.
+
+## Formato de saída ao concluir
+
+**Prompt final**: texto completo, pronto para uso no agente executor.
+
+**Pontos a confirmar**: somente se restarem incertezas relevantes não resolvidas.
+
+O prompt é o resultado principal. Não apresente várias versões nem explicações longas sobre as técnicas usadas.
+
+## Exemplo
+
+Entrada: "Corrija a tela de login."
+
+Pergunta inicial: "Qual problema ocorre no login: o erro aparece ao digitar a senha, ao clicar em 'Entrar' ou após a resposta da API? Qual mensagem aparece, se houver?"
+
+Se o usuário responder que o erro surge após clicar em "Entrar" com a API retornando 401 para credenciais corretas, pergunte somente o que ainda falta (ex.: afeta todas as contas? funciona em outro ambiente?) e então gere:
+
+> Investigue e corrija o fluxo de autenticação da tela de login. Ao clicar em "Entrar" com credenciais que deveriam ser válidas, a API retorna HTTP 401. Inspecione os componentes de login, a montagem da requisição, o tratamento da resposta e a integração com o serviço de autenticação para identificar a causa raiz. Implemente a correção mínima necessária, preservando os padrões do projeto. Adicione ou ajuste testes para o cenário e valide que credenciais inválidas continuam sendo tratadas corretamente.
+
+O exemplo é ilustrativo: inclua fatos como o 401 apenas se informados ou verificados.
